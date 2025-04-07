@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Surprise!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #fce4ec;
+      overflow-x: hidden;
+      text-align: center;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 50px;
+    }
+    .image-grid img {
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .image-grid img:hover {
+      transform: scale(1.1);
+    }
+    .popup {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 0px 10px #000;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+    }
+    #nextBtn {
+      margin-top: 20px;
+      font-size: 20px;
+      cursor: pointer;
+      background: #ff80ab;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    #secondPage {
+      display: none;
+    }
+
+    /* Updated Section Starts */
+    .random-images {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  margin-top: 50px;
+  overflow: hidden;
+}
+.random-images img {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  animation: fadeInPop 0.8s ease forwards;
+  opacity: 0;
+}
+.random-images img:hover {
+  transform: scale(1.1) rotate(2deg);
+}
+@keyframes fadeInPop {
+  0% {
+    transform: scale(0.5) translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+    /* Updated Section Ends */
+
+    #centerImage {
+      width: 150px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+    #letterModalOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .letter-content {
+      background: #fff8e1;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      z-index: 1001;
+    }
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1500;
+    }
+  </style>
+</head>
+<body>
+  <div id="homepage">
+    <h1>🎉 Welcome to Your Birthday Surprise! 🎈</h1>
+    <p>Click any 3 lucky images below 👇</p>
+    <div class="image-grid" id="imageGrid">
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+      <img src="./3627a0badea846944803300919e45776.jpg" />
+    </div>
+  </div>
+
+  <div class="popup hidden" id="popup">
+    <p>🎁 I tolerate you more than most people. Consider yourself special.! 🎉</p>
+    <button id="nextBtn">➡ Next</button>
+  </div>
+
+  <div id="secondPage">
+    <h2>✨ Almost There! ✨</h2>
+    <div class="random-images" id="randomImages">
+      <img src="/photo1.jpg" />
+      <img src="/photo2.jpg" />
+      <img src="/photo3.jpg" />
+      <img src="/photo4.jpg" />
+      <img src="/photo5.jpg" />
+    </div>
+    <img id="centerImage" src="/envelope.jpg" title="Open Letter" />
+  </div>
+
+  <div id="letterModalOverlay">
+    <div class="letter-content hidden" id="letterContent">
+      <h2>Dear Friend,</h2>
+      <p>Dekh tune gift lene se toh mana kr diya but since mai ek acha dost hu , itna toh mai kr hi skta hu.</p>
+      <p><strong>'HAPPY BIRTHDAY Viiiiiiii 💗'</strong></p>
+      <p>Peechle 2 saalon mein koi humesha mere saath khada raha hai har time mein toh voh tu hi hai.<br>
+      Apne voh 3 AM wale calls mere liye sbse badhe therapy rahe hai.<br>
+      Mai kisi se itna open up nhi ho paya hu jitna tere sath hota hu that makes you a very special friend.<br>
+      And chahe apan kitna bhi jhagadte ho maine kbhi tere baare mein galat nahi socha hai aur na hi kbhi sochunga.</p>
+      <p>I know ki maine tujhe boht pareshan aur dukhi kiya hai recent times mein , So uske liye I AM AGAIN VERY VERY SORRY.<br>
+      And meri ek hi wish rahegi humesha ki jab tk apni ye friendship hai tb tk tu humesha mere side khade rahe.</p>
+      <p>( Dekh likhne ko toh boht kuch likhna hai but ye website bnane mein boht mehnat lagi hai isliye idhr k liye itna hi )</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const images = document.querySelectorAll("#imageGrid img");
+    let clickedCount = 0;
+    const popup = document.getElementById("popup");
+    const nextBtn = document.getElementById("nextBtn");
+    const secondPage = document.getElementById("secondPage");
+    const homepage = document.getElementById("homepage");
+    const letterModalOverlay = document.getElementById("letterModalOverlay");
+    const centerImage = document.getElementById("centerImage");
+    const letterContent = document.getElementById("letterContent");
+
+    images.forEach((img) => {
+      img.addEventListener("click", () => {
+        if (!img.classList.contains("clicked") && clickedCount < 3) {
+          img.classList.add("clicked");
+          img.style.border = "3px solid #ff4081";
+          clickedCount++;
+
+          if (clickedCount === 3) {
+            images.forEach((otherImg) => {
+              if (!otherImg.classList.contains("clicked")) {
+                otherImg.style.display = "none";
+              }
+            });
+            popup.classList.remove("hidden");
+          }
+        }
+      });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      popup.classList.add("hidden");
+      homepage.style.display = "none";
+      secondPage.style.display = "block";
+    });
+
+    centerImage.addEventListener("click", () => {
+      letterModalOverlay.style.display = "flex";
+      letterContent.classList.remove("hidden");
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    });
+
+    // 🪄 Random placement logic for the photos
+    window.addEventListener("DOMContentLoaded", () => {
+  const randomImgs = document.querySelectorAll(".random-images img");
+  const placedAreas = [];
+
+  randomImgs.forEach((img) => {
+    let overlap = true;
+    let top, left;
+
+    while (overlap) {
+      top = Math.random() * 300;
+      left = Math.random() * (window.innerWidth - 200);
+
+      overlap = placedAreas.some(area => {
+        return (
+          Math.abs(area.top - top) < 200 &&
+          Math.abs(area.left - left) < 200
+        );
+      });
+    }
+
+    placedAreas.push({ top, left });
+    const angle = (Math.random() * 30) - 15;
+
+    img.style.top = `${top}px`;
+    img.style.left = `${left}px`;
+    img.style.transform += ` rotate(${angle}deg)`;
+  });
+});
+  </script>
+</body>
+</html>
