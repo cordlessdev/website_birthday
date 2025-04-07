@@ -13,26 +13,36 @@
       overflow-x: hidden;
       text-align: center;
     }
+
     .hidden {
       display: none !important;
     }
+
     .image-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr); /* 4 columns */
-        gap: 20px;
-        justify-items: center;
-        margin: 50px auto 0;
-        max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      justify-items: center;
+      margin: 50px auto 0;
+      max-width: 900px;
     }
+
     .image-grid img {
       width: 200px;
       height: 200px;
       cursor: pointer;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease, opacity 0.5s ease;
     }
+
     .image-grid img:hover {
       transform: scale(1.1);
     }
+
+    .image-grid img.fade-out {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
     .popup {
       background: white;
       padding: 30px;
@@ -44,6 +54,7 @@
       transform: translate(-50%, -50%);
       z-index: 999;
     }
+
     #nextBtn {
       margin-top: 20px;
       font-size: 20px;
@@ -53,49 +64,68 @@
       padding: 10px 20px;
       border-radius: 10px;
     }
+
     #secondPage {
       display: none;
     }
 
-    /* Updated Section Starts */
-    .random-images {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  margin-top: 50px;
-  overflow: hidden;
-}
-.random-images img {
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-  animation: fadeInPop 0.8s ease forwards;
-  opacity: 0;
-}
-.random-images img:hover {
-  transform: scale(1.1) rotate(2deg);
-}
-@keyframes fadeInPop {
-  0% {
-    transform: scale(0.5) translateY(50px);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
+    .clicked-images-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
 
-    /* Updated Section Ends */
+    .clicked-images-container img {
+      width: 180px;
+      height: 180px;
+      border: 3px solid #ff80ab;
+      border-radius: 20px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .random-images {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      margin-top: 50px;
+      overflow: hidden;
+    }
+
+    .random-images img {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+      animation: fadeInPop 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .random-images img:hover {
+      transform: scale(1.1) rotate(2deg);
+    }
+
+    @keyframes fadeInPop {
+      0% {
+        transform: scale(0.5) translateY(50px);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
 
     #centerImage {
       width: 150px;
       cursor: pointer;
       margin-top: 30px;
     }
+
     #letterModalOverlay {
       position: fixed;
       top: 0;
@@ -108,6 +138,7 @@
       justify-content: center;
       z-index: 1000;
     }
+
     .letter-content {
       background: #fff8e1;
       padding: 30px;
@@ -116,6 +147,7 @@
       margin: 0 auto;
       z-index: 1001;
     }
+
     .confetti {
       position: fixed;
       top: 0;
@@ -150,6 +182,10 @@
 
   <div id="secondPage">
     <h2>✨ Almost There! ✨</h2>
+
+    <!-- Centered Clicked Images -->
+    <div id="clickedImages" class="clicked-images-container hidden"></div>
+
     <div class="random-images" id="randomImages">
       <img src="./photo1.jpg" />
       <img src="./photo2.jpg" />
@@ -186,6 +222,7 @@
     const letterModalOverlay = document.getElementById("letterModalOverlay");
     const centerImage = document.getElementById("centerImage");
     const letterContent = document.getElementById("letterContent");
+    const clickedImagesContainer = document.getElementById("clickedImages");
 
     images.forEach((img) => {
       img.addEventListener("click", () => {
@@ -197,10 +234,19 @@
           if (clickedCount === 3) {
             images.forEach((otherImg) => {
               if (!otherImg.classList.contains("clicked")) {
-                otherImg.style.display = "none";
+                otherImg.classList.add("fade-out");
+                setTimeout(() => {
+                  otherImg.style.display = "none";
+                }, 500);
+              } else {
+                const clone = otherImg.cloneNode(true);
+                clickedImagesContainer.appendChild(clone);
               }
             });
-            popup.classList.remove("hidden");
+
+            setTimeout(() => {
+              popup.classList.remove("hidden");
+            }, 600);
           }
         }
       });
@@ -210,6 +256,7 @@
       popup.classList.add("hidden");
       homepage.style.display = "none";
       secondPage.style.display = "block";
+      clickedImagesContainer.classList.remove("hidden");
     });
 
     centerImage.addEventListener("click", () => {
@@ -222,35 +269,34 @@
       });
     });
 
-    // 🪄 Random placement logic for the photos
     window.addEventListener("DOMContentLoaded", () => {
-  const randomImgs = document.querySelectorAll(".random-images img");
-  const placedAreas = [];
+      const randomImgs = document.querySelectorAll(".random-images img");
+      const placedAreas = [];
 
-  randomImgs.forEach((img) => {
-    let overlap = true;
-    let top, left;
+      randomImgs.forEach((img) => {
+        let overlap = true;
+        let top, left;
 
-    while (overlap) {
-      top = Math.random() * 300;
-      left = Math.random() * (window.innerWidth - 200);
+        while (overlap) {
+          top = Math.random() * 300;
+          left = Math.random() * (window.innerWidth - 200);
 
-      overlap = placedAreas.some(area => {
-        return (
-          Math.abs(area.top - top) < 200 &&
-          Math.abs(area.left - left) < 200
-        );
+          overlap = placedAreas.some(area => {
+            return (
+              Math.abs(area.top - top) < 200 &&
+              Math.abs(area.left - left) < 200
+            );
+          });
+        }
+
+        placedAreas.push({ top, left });
+        const angle = (Math.random() * 30) - 15;
+
+        img.style.top = `${top}px`;
+        img.style.left = `${left}px`;
+        img.style.transform += ` rotate(${angle}deg)`;
       });
-    }
-
-    placedAreas.push({ top, left });
-    const angle = (Math.random() * 30) - 15;
-
-    img.style.top = `${top}px`;
-    img.style.left = `${left}px`;
-    img.style.transform += ` rotate(${angle}deg)`;
-  });
-});
+    });
   </script>
 </body>
 </html>
